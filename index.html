@@ -178,6 +178,7 @@ button{cursor:pointer}
 .key{height:52px;border-radius:14px;border:1px solid var(--border);background:var(--paper);font-size:19px;color:var(--ink)}
 .key.blank{visibility:hidden}
 .pin-modal{text-align:center}
+.pin-in{-webkit-text-security:disc;text-security:disc;letter-spacing:.3em}
 .pin-err{color:#b5483f;font-size:12px;min-height:16px;margin-top:10px}
 .toast{position:fixed;left:50%;bottom:20px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:9px 16px;border-radius:999px;font-size:12px;z-index:60}
 @media (max-width:560px){
@@ -778,7 +779,7 @@ function journalModal(j){
     <div class="field"><span class="field-title">Category</span>
       <div class="chips"><button class="chip" data-m="cat" data-v="">None</button>${cats.map((c, i) => `<button class="chip" data-m="cat" data-v="${i}">${esc(c)}</button>`).join('')}</div></div>
     <div class="field"><label for="jm-pin">PIN lock (optional)</label>
-      <input id="jm-pin" class="text-in" type="password" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="${j && j.pinHash ? 'Leave blank to keep current PIN' : '4 digits'}">
+      <input id="jm-pin" class="text-in pin-in" type="text" inputmode="numeric" maxlength="4" autocomplete="off" placeholder="${j && j.pinHash ? 'Leave blank to keep current PIN' : '4 digits'}">
       ${j && j.pinHash ? `<label class="toggle" style="justify-content:flex-start"><input type="checkbox" id="jm-nopin"> Remove PIN</label>` : ''}
       <p class="note">A PIN keeps casual peekers out. It isn’t strong security, so keep truly private things elsewhere. If you forget it, the journal can’t be opened.</p></div>
     <div class="modal-actions">
@@ -908,7 +909,6 @@ window.addEventListener('hashchange', () => { readHash(); if (S.view === 'home')
   if (st) S.settings = {...DEFAULT_SETTINGS, ...st, categories:(st.categories || DEFAULT_SETTINGS.categories).slice(0, 3)};
   for (const [k, v] of all) if (typeof k === 'string' && k.startsWith('j:') && v && Array.isArray(v.pages)) S.journals.push(v);
   render();
-  if (navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(() => {});
 })();
 </script>
 </body>
